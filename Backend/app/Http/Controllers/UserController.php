@@ -64,10 +64,6 @@ class UserController extends Controller
                 'password' => 'required|string',
             ]);
 
-            // Access validated data (optional)
-            // $email = $validatedData['email'];
-            // $password = $validatedData['password'];
-
             // Attempt login using Laravel's built-in authentication
             $credentials = $request->only('email', 'password');
             if (Auth::attempt($credentials)) {
@@ -87,7 +83,7 @@ class UserController extends Controller
             }
 
             // Login failed
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return response()->json(['message' => 'Wrong email or password.'], 401);
         } catch (ValidationException $e) {
             return response()->json($e->validator->errors(), 422);
         }
