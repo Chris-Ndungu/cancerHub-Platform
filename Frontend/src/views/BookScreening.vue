@@ -1,77 +1,185 @@
 <template>
-  <div class="my-8 px-24 flex justify-center">
+  <div class="my-8 px-5 flex justify-center">
     <!-- 
             map with pins for the different centers across the country
             Booking form
          -->
-    <form action="" method="post">
-      <fieldset class="">
+    <form @submit.prevent="handleSubmit">
+      <fieldset class="flex flex-col">
         <!-- Name -->
-        <div class="mb-8 flex gap-8">
+        <div class="mb-8 flex flex-col md:flex-row justify-between gap-3">
           <div class="field">
-            <label for="first-name">First Name</label>
-            <input class="input" type="text" name="first-name" />
+            <label for="first_name">First Name</label>
+            <input v-model="firstName" class="input" type="text" name="firstName" id="firstName" />
           </div>
           <div class="field">
-            <label for="middle-name">Middle Name</label>
-            <input class="input" type="text" name="middle-name" />
+            <label for="middle_name">Middle Name</label>
+            <input
+              v-model="middleName"
+              class="input"
+              type="text"
+              name="middleName"
+              id="middleName"
+            />
           </div>
           <div class="field">
             <label for="last-name">Last Name</label>
-            <input type="text" name="last-name" id="" />
+            <input v-model="lastName" type="text" name="lastName" id="lastName" />
           </div>
         </div>
 
         <!-- Contact -->
-        <div class="mb-8 flex gap-8">
+        <div class="mb-8 flex gap-8 justify-between">
           <div class="field">
             <label for="phone-number">Phone Number</label>
-            <input type="number" name="phone-number" id="" placeholder="Phone Number" />
+            <input
+              v-model="phoneNumber"
+              type="text"
+              name="phoneNumber"
+              id="phoneNumber"
+              placeholder="Phone Number"
+            />
           </div>
           <div class="field">
             <label for="email">Email</label>
-            <input type="email" name="email" id="" placeholder="Email" />
+            <input v-model="email" type="email" name="email" id="email" placeholder="Email" />
           </div>
         </div>
         <!-- Gender and county -->
-        <div class="mb-8 flex gap-8">
+        <div class="mb-8 flex gap-8 justify-between">
           <div class="field">
             <label for="gender">Gender</label>
-            <select name="gender" id="gender-picker">
-              <option value>Choose your Gender</option>
+            <select v-model="gender" name="gender" id="gender">
+              <option value>Select your Gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
             </select>
           </div>
           <div class="field">
             <label for="county">County of residence</label>
-            <input type="text" name="county" id="county" />
+            <input v-model="county" type="text" name="county" id="county" />
           </div>
         </div>
         <!-- Date and Specialty -->
-        <div class="mb-8 flex w-full justify-between">
+        <div class="mb-8 flex gap-10 justify-between">
           <div class="field">
             <label for="date">Preferred date of appointment</label>
-            <input type="date" name="date" id="" />
+            <input v-model="date" type="date" name="date" id="date" />
           </div>
           <div class="field">
-            <label for="specialty">Specialty</label>
-            <select name="specialty" id="">
-              <option value>Choose a specialty</option>
-              <option value="">Texas Cancer Center</option>
-              <option value="">Aga Khan University Hospital-Nairobi</option>
-              <option value="">Kenyatta National Hospital</option>
-              <option value="">Kenyatta University Referal Hospital</option>
-              <option value="">Mombasa Hospital</option>
+            <label for="facility">Facility</label>
+            <select v-model="facility" name="facility" id="facility">
+              <option value>Select a facility</option>
+              <option value="texas">Texas Cancer Center</option>
+              <option value="aga-khan">Aga Khan University Hospital-Nairobi</option>
+              <option value="knh">Kenyatta National Hospital</option>
+              <option value="kurh">Kenyatta University Referal Hospital</option>
+              <option value="mombasa">Mombasa Hospital</option>
             </select>
           </div>
         </div>
+        <button
+          type="submit"
+          class="w-max bg-orange-400 py-2 px-5 rounded-3xl text-white font-bold text-xl hover:bg-blue-300 hover:text-black hover:underline self-center place-self-center"
+        >
+          Submit
+        </button>
       </fieldset>
     </form>
   </div>
 </template>
 
-<script></script>
+<script>
+import axios from 'axios'
+
+export default {
+  data() {
+    return {
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      county: '',
+      date: '',
+      facility: ''
+    }
+  },
+  methods: {
+    async handleSubmit() {
+      // Validation
+      const requiredFields = ['firstName', 'email', 'date', 'facility']
+      let hasMissingFields = false
+      let errorMessage = ''
+
+      for (const field of requiredFields) {
+        if (!this[field]) {
+          hasMissingFields = true
+          errorMessage += `- ${field} is required.\n`
+        }
+      }
+
+      if (hasMissingFields) {
+        alert(errorMessage)
+        return
+      }
+
+      // Integrate with Laravel backend
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/api/booking', {
+          first_name: this.firstName,
+          middle_name: this.middleName,
+          last_name: this.lastName,
+          email: this.email,
+          phone_number: this.phoneNumber,
+          county: this.county,
+          date: this.date,
+          facility: this.facility
+        })
+        console.log('Booking successful:', response.data)
+
+        // Clear form or handle success message (e.g., display success message, redirect to confirmation page)
+        this.clearForm() // Call a clearForm method (see below)
+        alert('Booking submitted successfully!')
+      } catch (error) {
+        console.error('Booking error:', error)
+
+        // Handle error message
+        if (error.response && error.response.status === 422) {
+          // Access specific validation errors from Laravel response (adjust based on your API structure)
+          const errors = error.response.data.errors // Assuming Laravel sends errors in an "errors" object
+
+          // Build a user-friendly error message
+          let errorMessage = ''
+          for (const field in errors) {
+            errorMessage += `- ${field}: ${errors[field].join(', ')} \n`
+          }
+
+          console.error('Booking error (422):', errorMessage)
+          console.log(errorMessage)
+          alert(errorMessage) // Display error message to user
+        } else {
+          console.error('Booking error:', error)
+          alert('An unexpected error occurred. Please try again later.') // Generic error message
+        }
+      } finally {
+        // Reset form fields
+        this.clearForm()
+      }
+    },
+    clearForm() {
+      this.firstName = ''
+      this.middleName = ''
+      this.lastName = ''
+      this.email = ''
+      this.phoneNumber = ''
+      this.county = ''
+      this.date = ''
+      this.facility = ''
+    }
+  }
+}
+</script>
 
 <style>
 input {

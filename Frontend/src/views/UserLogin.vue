@@ -10,6 +10,7 @@
           </router-link>
         </span>
       </h2>
+      <div v-if="error" class="alert alert-danger text-red-500 text-sm">{{ error }}</div>
       <div class="form-group">
         <label for="email">Email</label>
         <br />
@@ -36,49 +37,50 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import axios from 'axios' // integration with Laravel backend
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-export default {
-  data() {
-    return {
-      email: '',
-      password: '',
-      error: null
+// defining the data variables
+const email = ref('')
+const password = ref('')
+const error = ref(null)
+
+const router = useRouter()
+
+const handleLogin = async () => {
+  if (!email.value || !password.value) {
+    error.value = 'please fill in all fields.'
+    return
+  }
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/api/login', {
+      email: email.value,
+      password: password.value
+    })
+
+    if (response.data.status == 200) {
+      // Access accessToken after successful response
+      const accessToken = response.data.token
+
+      // store the access token
+      localStorage.setItem('accessToken', accessToken)
+      console.log('Access Token Stored:', accessToken)
+
+      // open the user dashboard after successful login
+      router.push({ name: 'dashboard' })
+    } else {
+      error.value = response.data.message || 'Login failed.'
+      console.error('Login failed:', response.data.error)
     }
-  },
-  methods: {
-    async handleLogin() {
-      // Basic validation (optional)
-      if (!this.email || !this.password) {
-        this.error = 'Please fill in all fields.'
-        return
-      }
-
-      try {
-        const response = await axios.post('http://127.0.0.1:8000/api/login', {
-          email: this.email,
-          password: this.password
-        })
-        if (response.data.success) {
-          const accessToken = response.data.token // Access accessToken after successful response
-          localStorage.setItem('accessToken', accessToken) // Set access token in localStorage
-          console.log('Access Token stored:', accessToken)
-        } else {
-          // Handle login failure
-          console.error('Login failed:', response.data.error)
-        }
-
-        this.$router.push('/dashboard')
-      } catch (error) {
-        console.error('Login error:', error.response.data)
-        this.error = error.response.data.message || 'Login failed.' // Assuming Laravel API returns error messages
-      } finally {
-        // Reset form fields (optional)
-        this.email = ''
-        this.password = ''
-      }
-    }
+  } catch (err) {
+    error.value = err.response.data.message || 'Login failed.'
+    console.error('Login error:', err.response.data)
+  } finally {
+    // Reset form fields (optional)
+    email.value = ''
+    password.value = ''
   }
 }
 </script>
