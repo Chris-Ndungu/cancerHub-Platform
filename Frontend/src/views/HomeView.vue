@@ -1,23 +1,14 @@
-<script>
+<script setup>
 import { useRouter } from 'vue-router'
 
 import GalleriaComponent from '@/components/GalleriaComponent.vue'
 import NewsletterComponent from '@/components/NewsletterComponent.vue'
 
-export default {
-  components: { GalleriaComponent, NewsletterComponent },
+const router = useRouter()
 
-  setup() {
-    const router = useRouter()
-
-    const goToBooking = () => {
-      router.push({ name: 'booking' }) // Using named route
-    }
-
-    // ... other component logic
-
-    return { goToBooking }
-  }
+// redirect to booking component/page
+const goToBooking = () => {
+  router.push({ name: 'booking' })
 }
 </script>
 
@@ -84,7 +75,7 @@ export default {
             </div>
 
             <div class="flex flex-col gap-3">
-              <h1 class="text-blue-400 text-xl">Breast Cancer</h1>
+              <h1 class="text-blue-400 text-xl font-bold">Breast Cancer</h1>
               <p>
                 Breast cancer is one of the most common cancers that affects women and people
                 assigned female at birth.
@@ -117,33 +108,57 @@ export default {
             </div>
           </div>
           <h2 class="font-bold text-3xl">I would like information on...</h2>
-          <div class="">
-            <img src="../assets/img/types-cancer-1.jpg" alt="" width="100%" />
-            <div class="my-5">
-              <h1 class="text-blue-400">Cancer Type</h1>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero explicabo nesciunt
-                nulla autem, corrupti numquam, tenetur similique unde quae delectus velit nostrum
-                repudiandae soluta magnam labore aspernatur. Aperiam, aliquid accusamus!
-              </p>
+          <section class="flex justify-between mt-5 gap-5">
+            <div class="w-full flex flex-col gap-3">
+              <img src="../assets/img/types-cancer.jpg" alt="" class="w-full" />
+              <h3>Types of Cancer</h3>
+              <button
+                class="w-max bg-orange-400 py-2 px-5 rounded-3xl hover:bg-blue-300 hover:text-black hover:underline self-center"
+              >
+                View
+              </button>
             </div>
-          </div>
-          <div class="border border-red-500">
-            <img src="../assets/img/types-cancer-2.jpg" alt="" width="100%" />
-            <div>
-              <h1 class="text-blue-400">Cancer Type</h1>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero explicabo nesciunt
-                nulla autem, corrupti numquam, tenetur similique unde quae delectus velit nostrum
-                repudiandae soluta magnam labore aspernatur. Aperiam, aliquid accusamus!
-              </p>
+
+            <div class="w-full flex flex-col gap-3">
+              <img src="../assets/img/treatment.jpg" alt="" class="w-full" />
+              <h3>Cancer Treatments</h3>
+              <button
+                class="w-max bg-orange-400 py-2 px-5 rounded-3xl hover:bg-blue-300 hover:text-black hover:underline self-center"
+              >
+                View
+              </button>
             </div>
-          </div>
+            <div class="w-full flex flex-col gap-3">
+              <img src="../assets/img/treatments.jpg" alt="" class="w-full" />
+              <h3>Medication and Recovery</h3>
+              <button
+                class="w-max bg-orange-400 py-2 px-5 rounded-3xl hover:bg-blue-300 hover:text-black hover:underline self-center"
+              >
+                View
+              </button>
+            </div>
+          </section>
         </div>
       </div>
       <!-- Events -->
-      <div class="flex justify-center md:my-5">
-        <GalleriaComponent />
+      <div class="flex flex-col gap-8 justify-center md:my-5">
+        <h1 class="font-bold text-3xl">Our Latest News and Events</h1>
+
+        <div class="flex gap-14 items-center justify-center">
+          <GalleriaComponent />
+          <GalleriaComponent />
+        </div>
+      </div>
+      <!-- Services -->
+      <div class="flex flex-col items-center">
+        <h1 class="font-bold text-3xl">Services we offer:</h1>
+        <ul class="text-xl text-center leading-loose text-blue-800">
+          <li>Consultation Services</li>
+          <li>Patients Management</li>
+          <li>Screening Booking</li>
+          <li>Cancer Awareness</li>
+          <li>Events Booking</li>
+        </ul>
       </div>
       <!-- Newsletter -->
       <NewsletterComponent />
