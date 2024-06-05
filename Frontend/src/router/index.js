@@ -4,6 +4,7 @@ import UserRegister from '@/views/UserRegister.vue'
 import UserLogin from '@/views/UserLogin.vue'
 import Booking from '@/views/BookScreening.vue'
 import Dashboard from '@/views/UserDashboard.vue'
+import Contact from '@/views/ContactUs.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: Contact
     }
   ]
 })

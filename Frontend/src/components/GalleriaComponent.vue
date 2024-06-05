@@ -5,7 +5,7 @@
       :responsiveOptions="responsiveOptions"
       :numVisible="5"
       :circular="true"
-      containerStyle="width: 760px"
+      containerStyle="width: 500px"
       :showItemNavigators="true"
       :showThumbnails="false"
     >

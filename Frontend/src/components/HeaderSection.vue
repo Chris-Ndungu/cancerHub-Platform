@@ -6,13 +6,14 @@ export default {
     let open = ref(false)
     let Links = [
       { name: 'Home', link: '/' },
-      { name: 'Services', link: '/talks' },
-      { name: 'About', link: '/about' },
+      // { name: 'Services', link: '/talks' },
+      // { name: 'About', link: '/about' },
       { name: 'Contact', link: '/contact' }
     ]
     let signLinks = [
       { name: 'Log In', link: '/login' },
-      { name: 'Sign Up', link: '/signup' }
+      { name: 'Sign Up', link: '/register' },
+      { name: 'Profile', link: '/dashboard' }
     ]
 
     // change value for menu icon
@@ -30,7 +31,7 @@ export default {
       <!-- Logo -->
       <div class="flex content-center">
         <img src="@/assets/img/logo.png" alt="" class="h-18 w-24" />
-        <h1 class="text-2xl text-black md:max-w-20">Cancer Center</h1>
+        <h1 class="text-2xl text-black md:max-w-20">cancerHub Center</h1>
       </div>
       <!-- Nav bar icon-->
       <span
@@ -50,7 +51,7 @@ export default {
           <a class="text-xl font-semibold" :href="link.link">{{ link.name }}</a>
         </li>
       </ul>
-      <div class="text-center pt-5 flex justify-center gap-4">
+      <div class="text-center pt-5 flex justify-center gap-4 text-black">
         <button class="text-black" v-for="link in signLinks" :key="link.name">
           <a :href="link.link">{{ link.name }}</a>
         </button>
