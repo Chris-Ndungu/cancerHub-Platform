@@ -5,6 +5,7 @@
       :responsiveOptions="responsiveOptions"
       :numVisible="5"
       :circular="true"
+      :autoPlay="true"
       containerStyle="width: 500px"
       :showItemNavigators="true"
       :showThumbnails="false"

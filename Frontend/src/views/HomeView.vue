@@ -38,7 +38,7 @@ const goToBooking = () => {
     </section>
 
     <!-- Main section -->
-    <section class="my-8 flex flex-col gap-10">
+    <section class="my-8 px-5 lg:px-0 flex flex-col gap-10">
       <!-- Support -->
       <div class="flex flex-col items-center gap-3 font-bold text-xl">
         <h1 class="text-2xl">Need someone to talk to?</h1>
@@ -46,7 +46,7 @@ const goToBooking = () => {
         <h3>
           Support Line:
           <span
-            ><a href="tel:+1100123456" class="te underline hover:text-orange-500"
+            ><a href="tel:+1100123456" class="underline hover:text-orange-500"
               >1100 123 456</a
             ></span
           >
@@ -55,14 +55,14 @@ const goToBooking = () => {
         <p class="font-bold">
           Email:
           <span
-            ><a href="mailto:" class="te underline hover:text-orange-500"
+            ><a href="mailto:" class="underline hover:text-orange-500"
               >supportline@center.com</a
             ></span
           >
         </p>
       </div>
       <!-- Awareness -->
-      <div class="mx-5">
+      <div>
         <h1 class="font-bold text-3xl text-left w-max">Today's Spotlight...</h1>
 
         <!-- cards -->
@@ -141,10 +141,10 @@ const goToBooking = () => {
         </div>
       </div>
       <!-- Events -->
-      <div class="flex flex-col gap-8 justify-center md:my-5">
+      <div class="flex flex-col gap-8 justify-center my-5">
         <h1 class="font-bold text-3xl">Our Latest News and Events</h1>
 
-        <div class="flex gap-14 items-center justify-center">
+        <div class="flex flex-col lg:flex-row gap-14 items-center justify-center">
           <GalleriaComponent />
           <GalleriaComponent />
         </div>
