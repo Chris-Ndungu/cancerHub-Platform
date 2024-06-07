@@ -70,7 +70,7 @@ class UserController extends Controller
                 // Login successful
                 $user = Auth::user();
 
-                // Generate a JWT token (recommended for production)
+                // Generate a JWT token 
                 $token = $user->createToken('auth_token')->plainTextToken; // Adjust token name as needed
                 return response()->json([
                     'message' => 'Login successful',
