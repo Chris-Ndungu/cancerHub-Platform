@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userData">
+  <div v-if="userData" class="">
     <section class="p-5 flex justify-between items-start">
       <div class="flex flex-col gap-1">
         <img src="../assets/img/avatar.png" alt="" width="100px" />
